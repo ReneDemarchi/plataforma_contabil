@@ -1,0 +1,53 @@
+from db import get_db_connection
+
+class Calendario:
+    def __init__(self,id_cliente = None):
+        self.id_cliente = id_cliente
+        self.lista = []
+
+
+    def query_cliente_informado(self):
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT * FROM obrigacoes_clientes WHERE id_cliente = ?;", (self.id_cliente,))
+        colunas = [col[0] for col in cursor.description]
+        rows = cursor.fetchall()
+        lista_dicionarios = []
+        for row in rows:
+            lista_dicionarios.append(dict(zip(colunas, row)))
+        conn.close()
+        if lista_dicionarios:
+            self.lista = lista_dicionarios
+            return lista_dicionarios
+        return None
+
+    def query_todos_os_eventos(self):
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT * FROM obrigacoes_clientes;")  # Remover o filtro WHERE id_cliente = ?
+        colunas = [col[0] for col in cursor.description]
+        rows = cursor.fetchall()
+        lista_dicionarios = []
+        for row in rows:
+            lista_dicionarios.append(dict(zip(colunas, row)))
+        conn.close()
+        if lista_dicionarios:
+            self.lista = lista_dicionarios
+            return lista_dicionarios
+        return None
+
+    def adicionar_obrigações(self,titulo,descrição,data_vencimento,concluido,id_cliente):
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT COUNT(*) FROM clientes WHERE id_cliente = ?", (id_cliente,))
+        cliente_existe = cursor.fetchone()[0] > 0
+        if not cliente_existe:
+            print(f"Erro: Cliente com ID {id_cliente} não encontrado!")
+            conn.close()
+            return 'Erro'
+        conn.execute(
+            'INSERT INTO obrigacoes_clientes (titulo, descricao, data_vencimento, concluido, id_cliente) VALUES (?, ?, ?, ?, ?)',
+            (titulo,descrição,data_vencimento,concluido,id_cliente)
+        )
+        conn.commit()
+
+if __name__ == '__main__':
+    query = Calendario(1).query_cliente_informado()
+    print(query)

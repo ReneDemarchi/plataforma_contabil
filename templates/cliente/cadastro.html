@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro Cliente{% endblock %}
+
+{% block content %}
+<main class="form-signin w-100 m-auto" style="max-width: 400px; padding: 15px;">
+  <form method="POST"
+      action="{{ url_for('cliente.cadastro', cnpj=dados['cnpj'].replace('/','').replace('.','').replace('-','')) }}">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.nome.label }}<br>
+        {{ form.nome(class="form-control", id="nome", value=dados['nome']) }}
+    </p>
+
+    <p>
+        {{ form.nome_fantasia.label }}<br>
+        {{ form.nome_fantasia(class="form-control", id="nome_fantasia", value=dados['fantasia']) }}
+    </p>
+
+    <p>
+        {{ form.cnpj.label }}<br>
+        {{ form.cnpj(class="form-control", id="cnpj", value=dados['cnpj']) }}
+    </p>
+    <!-- Data de entrada -->
+    <p>
+        {{ form.data_entrada.label }}<span class="text-danger">*</span><br>
+        {{ form.data_entrada(
+            class="form-control",
+            id="data_entrada",
+            type="date",
+            placeholder="aaaa-mm-dd",
+            required=True
+        ) }}
+    </p>
+    <!-- Data de saída -->
+    <p>
+        {{ form.data_saida.label }}<span class="text-danger">*</span><br>
+        {{ form.data_saida(
+            class="form-control",
+            id="data_saida",
+            type="date",
+            placeholder="aaaa-mm-dd",
+            required=True
+        ) }}
+    </p>
+    <p>
+        {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+    </p>
+</form>
+
+</main>
+{% endblock %}

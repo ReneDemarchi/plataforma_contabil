@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<main class="form-signin w-100 m-auto" style="padding:15px;">
+  <!-- wrapper flexível: gap-3 dá espaçamento lateral entre os cards -->
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <!-- Card 1 -->
+    <div class="card" style="width:18rem;">
+      <div class="card-body">
+        <h5 class="card-title">ECAC</h5>
+        <p class="card-text">
+          Portal e-CAC. ACESSO GOVBR. versão clássica Receita Federal.
+        </p>
+        <a href="https://cav.receita.fazenda.gov.br/autenticacao/login" class="btn btn-primary">Link</a>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="card" style="width:18rem;">
+      <div class="card-body">
+        <h5 class="card-title">CND Federal</h5>
+        <p class="card-text">
+          Certidão de Débitos Relativos a Créditos Tributários Federais e à Dívida Ativa da União
+        </p>
+        <a href="https://solucoes.receita.fazenda.gov.br/servicos/certidaointernet/pj/emitir" class="btn btn-primary">Link</a>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="card" style="width:18rem;">
+      <div class="card-body">
+        <h5 class="card-title">CRF</h5>
+        <p class="card-text">
+          Consulta Regularidade do Empregador
+        </p>
+        <a href="https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf" class="btn btn-primary">Link</a>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar{% endblock %}
+
+{% block content %}
+<main class="form-signin w-100 m-auto" style="max-width: 400px; padding: 15px;">
+  <form method="POST" action="{{ url_for('auth.registrar') }}">
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.usuario.label }}<br>
+        {{ form.usuario(class="form-control", id="usuario", placeholder="Usuário") }}
+    </p>
+
+    <p>
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control", id="email", placeholder="Email") }}
+    </p>
+
+    <p>
+        {{ form.senha.label }}<br>
+        {{ form.senha(class="form-control", id="senha", placeholder="Senha") }}
+    </p>
+
+    <p>{{ form.submit(class="w-100 btn btn-lg btn-primary") }}</p>
+</form>
+
+</main>
+{% endblock %}
