@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from routes.modulos.requisito_login import login_requisito
-from forms import LoginForm, CadastroUsuarioForm, precadastroo ,CadastroClienteAPI,visualizacao_dados_cliente
+from forms import LoginForm, CadastroUsuarioForm, precadastroo ,CadastroClienteAPI,visualizacao_dados_cliente , Editar_evento , Criar_evento
 from api import consultar
 from db import *
 from cliente import Cliente
 from calendario import Calendario
+from datetime import datetime
 cliente = Blueprint('cliente', __name__)
 
 @cliente.route("/precadastro", methods=["GET", "POST"])
@@ -93,3 +94,17 @@ def deletar_cnae(id_cnae):
 def lista_cliente():
     dados = lista_cliente_db()
     return render_template("cliente/lista_cliente.html", dados=dados)
+
+@cliente.route("/evento/<int:id_evento>", methods=["GET"])
+@login_requisito
+def editar_evento(id_evento):
+    calendario = Calendario(1).query_por_id_evento(id_evento)
+    print(calendario)
+    form = Editar_evento()
+    form.data_entrega.data = datetime.strptime(calendario[0]['data_vencimento'], '%d/%m/%Y').date()
+
+    # Formulario para poder editar o evento
+    # id cliente atraves do id_evento
+    # if request.method == 'POST' and form.submit.data:
+    # Salvar modificação no evento
+    return render_template("cliente/perfil_evento.html", form=form ,dados=calendario)

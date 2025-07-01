@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Dados do evento{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-12">
+      <!-- Card Evento -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+          <h3 class="mb-0">Evento</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="" class="row g-3"> <!-- arrumar o actions -->
+            {{ form.hidden_tag() }}
+            <div class="col-md-4">
+              {{ form.titulo.label(class="form-label") }}
+              {{ form.titulo(class="form-control", value=dados[0]['titulo']) }} <!-- arrumar o valor  -->
+            </div>
+            <div class="col-md-8">
+              {{ form.descricao.label(class="form-label") }}
+              {{ form.descricao(class="form-control", value=dados[0]['descricao']) }}
+            </div>
+                <div class="col-md-4">
+                  {{ form.status.label(class="form-label") }}
+                  {{ form.status(class="form-control") }}
+                </div>
+            <div class="col-md-4">
+                  {{ form.data_entrega.label(class="form-label") }}
+                  {{ form.data_entrega(class="form-control") }}
+            </div>
+            <div class="col-4 text-end mt-4">
+                <br>
+  {{ form.submit(class="btn btn-success px-5") }}
+</div>
+          </form>
+        </div>
+      </div>
+{% endblock %}

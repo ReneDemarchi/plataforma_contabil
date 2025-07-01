@@ -34,6 +34,20 @@ class Calendario:
             return lista_dicionarios
         return None
 
+    def query_por_id_evento(self,id_evento):
+        conn = get_db_connection()
+        cursor = conn.execute("SELECT * FROM obrigacoes_clientes WHERE id = ?;", (id_evento,))
+        colunas = [col[0] for col in cursor.description]
+        rows = cursor.fetchall()
+        lista_dicionarios = []
+        for row in rows:
+            lista_dicionarios.append(dict(zip(colunas, row)))
+        conn.close()
+        if lista_dicionarios:
+            self.lista = lista_dicionarios
+            return lista_dicionarios
+        return None
+
     def adicionar_obrigações(self,titulo,descrição,data_vencimento,concluido,id_cliente):
         conn = get_db_connection()
         cursor = conn.execute("SELECT COUNT(*) FROM clientes WHERE id_cliente = ?", (id_cliente,))
@@ -49,5 +63,5 @@ class Calendario:
         conn.commit()
 
 if __name__ == '__main__':
-    query = Calendario(1).query_cliente_informado()
+    query = Calendario(1).adicionar_obrigações('CND','testeee','01/07/2025',1,2)
     print(query)
