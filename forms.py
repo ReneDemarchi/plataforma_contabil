@@ -55,19 +55,17 @@ class visualizacao_dados_cliente(FlaskForm):
 
 
 class Criar_evento(FlaskForm):
-    titulo = StringField('titulo', validators=[Length(min=3, max=150)])
-    descrição = StringField('descrição', validators=[Length(min=3, max=150)])
-    data_entrega = DateField('Data de entrega', format='%d/%m/%Y', validators=[], default=None)
-    id_cliente = StringField('Nome',validators=[Optional(),Length(max=9)])
+    titulo = StringField('Título', validators=[DataRequired(), Length(max=150)])
+    descricao = StringField('Descrição', validators=[Optional(), Length(max=150)])
+    data_entrega = DateField('Data de Entrega', format='%Y-%m-%d', validators=[DataRequired()])
+    submit = SubmitField('Criar evento')
+
 
 
 class Editar_evento(FlaskForm):
-    titulo = StringField('titulo', validators=[Length(min=3, max=150)])
-    descricao = StringField('descrição', validators=[Length(min=3, max=150)])
+    titulo = StringField('Titulo', validators=[Length(min=3, max=150)])
+    descricao = StringField('Descrição', validators=[Length(min=3, max=150)])
     data_entrega = DateField('Data de Entrega', format='%Y-%m-%d')
     id_cliente = StringField('Nome', validators=[Optional(), Length(max=9)])
-    status = SelectField(
-        'Status da Entrega',
-        choices=[('0', 'Não enviado'), ('1', 'Entregue')]
-    )
+    status = SelectField('Status da Entrega',choices=[('0', 'Não enviado'), ('1', 'Entregue')])
     submit = SubmitField('Editar')

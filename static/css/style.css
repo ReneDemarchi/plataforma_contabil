@@ -1,0 +1,25 @@
+.btnverde,
+.btnvermelho {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnverde {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btnvermelho {
+  background-color: #f44336;
+  color: white;
+}
+
+.botoes {
+  display: flex;
+  align-items: center; /* centraliza na altura */
+  gap: 10px; /* espaço entre os botões */
+}

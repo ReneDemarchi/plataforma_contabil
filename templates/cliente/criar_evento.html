@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Dados do evento{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-12">
+      <!-- Card Evento -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+          <h3 class="mb-0">Evento</h3>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{{ url_for('cliente.criar_evento', id_cliente=id_cliente) }}" class="row g-3">
+            {{ form.hidden_tag() }}
+            <div class="col-md-4">
+              {{ form.titulo.label(class="form-label") }}
+              {{ form.titulo(class="form-control", placeholder= "Nome do evento" )}} <!-- arrumar o valor  -->
+            </div>
+            <div class="col-md-4">
+              {{ form.descricao.label(class="form-label") }}
+              {{ form.descricao(class="form-control", placeholder= "....") }}
+            </div>
+            <div class="col-md-4">
+                  {{ form.data_entrega.label(class="form-label") }}
+                  {{ form.data_entrega(class="form-control") }}
+            </div>
+            <div class="col-12 d-flex justify-content-end mt-5">
+              {{ form.submit(class="btnverde") }}
+            </div>
+          </form>
+        </div>
+      </div>
+{% endblock %}

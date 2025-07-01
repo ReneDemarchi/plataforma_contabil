@@ -96,92 +96,100 @@
         </div>
       </div>
 
-      <!-- Card com calendário -->
-      <div class="card shadow-sm mt-4">
-        <div class="card-header bg-secondary text-white">
-          <h3 id="titulo-calendario" class="mb-0">Calendário</h3>
-        </div>
-        <div class="card-body p-0">
-          <style>
-            .calendar {
-              width: 100%;
-              border-collapse: collapse;
-              font-family: sans-serif;
-            }
-            .calendar th,
-            .calendar td {
-              border: 1px solid #ccc;
-              width: 14.28%;
-              height: 110px;
-              vertical-align: top;
-              padding: 5px;
-              font-size: 0.9rem;
-              position: relative;
-            }
-            .calendar th {
-              background-color: #000;
-              color: #fff;
-              text-align: center;
-            }
-            .evento-indicador {
-              display: block;
-              margin-top: 4px;
-              font-size: 0.7rem;
-              color: #fff;
-              padding: 2px 4px;
-              border-radius: 4px;
-              word-wrap: break-word;
-              text-decoration: none;
-            }
-            .evento-passado {
-              background-color: #dc3545;
-            }
-            .evento-hoje {
-              background-color: #ffc107;
-              color: #000;
-            }
-            .evento-futuro {
-              background-color: #28a745;
-            }
-            .evento-concluido {
-              background-color: #198754;
-            }
-          </style>
+<!-- Card com calendário -->
+<div class="card shadow-sm mt-4">
+  <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+    <h3 id="titulo-calendario" class="mb-0">Julho 2025</h3>
+    <a href="" class="btnverde">Novo Evento</a>
+  </div>
 
-          <table class="calendar">
-            <thead>
-              <tr>
-                <th>Domingo</th>
-                <th>Segunda</th>
-                <th>Terça</th>
-                <th>Quarta</th>
-                <th>Quinta</th>
-                <th>Sexta</th>
-                <th>Sábado</th>
-              </tr>
-            </thead>
-            <tbody id="calendario-corpo">
-              <!-- Preenchido via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+  <div class="card-body p-0">
+    <style>
+      .calendar {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: sans-serif;
+      }
+
+      .calendar th,
+      .calendar td {
+        border: 1px solid #ccc;
+        width: 14.28%;
+        height: 110px;
+        vertical-align: top;
+        padding: 5px;
+        font-size: 0.9rem;
+        position: relative;
+      }
+
+      .calendar th {
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+      }
+
+      .evento-indicador {
+        display: block;
+        margin-top: 4px;
+        font-size: 0.7rem;
+        color: #fff;
+        padding: 2px 4px;
+        border-radius: 4px;
+        word-wrap: break-word;
+        text-decoration: none;
+      }
+
+      .evento-passado {
+        background-color: #dc3545;
+      }
+
+      .evento-hoje {
+        background-color: #ffc107;
+        color: #000;
+      }
+
+      .evento-futuro {
+        background-color: #28a745;
+      }
+
+      .evento-concluido {
+        background-color: #198754;
+      }
+    </style>
+
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th>Domingo</th>
+          <th>Segunda</th>
+          <th>Terça</th>
+          <th>Quarta</th>
+          <th>Quinta</th>
+          <th>Sexta</th>
+          <th>Sábado</th>
+        </tr>
+      </thead>
+      <tbody id="calendario-corpo">
+        <!-- Preenchido via JS -->
+      </tbody>
+    </table>
   </div>
 </div>
+
+
 
 <!-- JSON com lista de eventos -->
 <script>
   const eventos = {{ eventos | tojson }};
-</script>
 
-<script>
   function gerarCalendario(dataReferencia = new Date()) {
     const corpo = document.getElementById("calendario-corpo");
     const titulo = document.getElementById("titulo-calendario");
 
-    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                   "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const meses = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
 
     const ano = dataReferencia.getFullYear();
     const mes = dataReferencia.getMonth();
@@ -194,16 +202,19 @@
     let html = "<tr>";
     let dia = 1;
 
+    // Preencher espaço até o primeiro dia do mês
     for (let i = 0; i < primeiroDia; i++) {
       html += "<td></td>";
     }
 
+    // Preencher primeira semana
     for (let i = primeiroDia; i < 7; i++) {
       html += gerarCelula(dia, mes, ano);
       dia++;
     }
     html += "</tr>";
 
+    // Preencher semanas seguintes
     while (dia <= ultimoDia) {
       html += "<tr>";
       for (let i = 0; i < 7; i++) {
@@ -230,16 +241,24 @@
     eventosDoDia.forEach(ev => {
       const [diaEv, mesEv, anoEv] = ev.data_vencimento.split("/").map(Number);
       const dataEv = new Date(anoEv, mesEv - 1, diaEv);
+      const concluido = parseInt(ev.concluido) === 1;
 
       let classe = "evento-indicador ";
-      if (ev.concluido === 1) {
-        classe += "evento-concluido";
+
+      const mesmoDia =
+        dataEv.getFullYear() === dataAtual.getFullYear() &&
+        dataEv.getMonth() === dataAtual.getMonth() &&
+        dataEv.getDate() === dataAtual.getDate();
+
+      if (mesmoDia) {
+        // Hoje
+        classe += concluido ? "evento-concluido" : "evento-hoje";
       } else if (dataEv < dataAtual) {
-        classe += "evento-passado";
-      } else if (dataEv.getTime() === dataAtual.getTime()) {
-        classe += "evento-hoje";
+        // Passado
+        classe += concluido ? "evento-concluido" : "evento-passado";
       } else {
-        classe += "evento-futuro";
+        // Futuro
+        classe += concluido ? "evento-concluido" : "evento-hoje";
       }
 
       celula += `<a href="/evento/${ev.id}" class="${classe}" title="${ev.descricao}">${ev.titulo}</a>`;
@@ -250,5 +269,9 @@
   }
 
   gerarCalendario();
+
 </script>
+<br>
+<br>
+<br>
 {% endblock %}

@@ -209,6 +209,15 @@ def lista_cliente_db():
         print(e)
         return None
 
+def deletar_evento(id_evento):
+    conn = get_db_connection()
+    conn.execute(
+        "DELETE FROM obrigacoes_clientes WHERE id = ?;",
+        (id_evento,)
+    )
+    conn.commit()
+    conn.close()
+
 
 if __name__ == "__main__":
     pass

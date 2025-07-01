@@ -4,8 +4,6 @@ class Calendario:
     def __init__(self,id_cliente = None):
         self.id_cliente = id_cliente
         self.lista = []
-
-
     def query_cliente_informado(self):
         conn = get_db_connection()
         cursor = conn.execute("SELECT * FROM obrigacoes_clientes WHERE id_cliente = ?;", (self.id_cliente,))
@@ -18,8 +16,7 @@ class Calendario:
         if lista_dicionarios:
             self.lista = lista_dicionarios
             return lista_dicionarios
-        return None
-
+        return []
     def query_todos_os_eventos(self):
         conn = get_db_connection()
         cursor = conn.execute("SELECT * FROM obrigacoes_clientes;")  # Remover o filtro WHERE id_cliente = ?
@@ -50,6 +47,7 @@ class Calendario:
 
     def adicionar_obrigações(self,titulo,descrição,data_vencimento,concluido,id_cliente):
         conn = get_db_connection()
+        print('refsdfsdfsd')
         cursor = conn.execute("SELECT COUNT(*) FROM clientes WHERE id_cliente = ?", (id_cliente,))
         cliente_existe = cursor.fetchone()[0] > 0
         if not cliente_existe:
@@ -61,7 +59,18 @@ class Calendario:
             (titulo,descrição,data_vencimento,concluido,id_cliente)
         )
         conn.commit()
+    def editar_evento(self,titulo, descricao, data_vencimento, concluido,id):
+        conn = get_db_connection()
+        print(data_vencimento)
+        conn.execute("""
+            UPDATE obrigacoes_clientes
+            SET titulo = ?, descricao = ?, data_vencimento = ?, concluido = ?
+            WHERE id = ?;
+        """, (titulo, descricao, data_vencimento, concluido, id))
+        conn.commit()
+        conn.close()
+
 
 if __name__ == '__main__':
-    query = Calendario(1).adicionar_obrigações('CND','testeee','01/07/2025',1,2)
+    query = Calendario(1).adicionar_obrigações('CND','rene','02/07/2025',1,1)
     print(query)

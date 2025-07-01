@@ -25,15 +25,20 @@
                   {{ form.status.label(class="form-label") }}
                   {{ form.status(class="form-control") }}
                 </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                   {{ form.data_entrega.label(class="form-label") }}
                   {{ form.data_entrega(class="form-control") }}
             </div>
-            <div class="col-4 text-end mt-4">
-                <br>
-  {{ form.submit(class="btn btn-success px-5") }}
-</div>
-          </form>
+                <div class="col-3 d-flex justify-content-end mt-5">
+                    <div class="botoes d-flex">
+                        {{ form.submit(class="btnverde") }}
+                        </form>
+                        <form method="POST" action="{{ url_for('cliente.deleta_evento', id_evento=dados[0]['id']) }}">
+                            {{ form.csrf_token }}
+                            <button type="submit" class="btnvermelho">Deletar evento</button>
+                        </form>
+                    </div>
+                </div>
         </div>
       </div>
 {% endblock %}

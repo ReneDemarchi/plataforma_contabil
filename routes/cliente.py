@@ -50,7 +50,6 @@ def cadastro(cnpj):
 @login_requisito
 def perfil_cliente(id_cliente):
     eventos = Calendario(id_cliente).query_cliente_informado()
-    print(eventos)
     form = visualizacao_dados_cliente()
     p_cliente = Cliente.buscar_por_id(id_cliente)
     cnaes = p_cliente.Cnaes_do_cliente()
@@ -95,16 +94,49 @@ def lista_cliente():
     dados = lista_cliente_db()
     return render_template("cliente/lista_cliente.html", dados=dados)
 
-@cliente.route("/evento/<int:id_evento>", methods=["GET"])
+@cliente.route("/evento/<int:id_evento>", methods=["GET","POST"])
 @login_requisito
 def editar_evento(id_evento):
     calendario = Calendario(1).query_por_id_evento(id_evento)
-    print(calendario)
     form = Editar_evento()
-    form.data_entrega.data = datetime.strptime(calendario[0]['data_vencimento'], '%d/%m/%Y').date()
-
-    # Formulario para poder editar o evento
-    # id cliente atraves do id_evento
-    # if request.method == 'POST' and form.submit.data:
-    # Salvar modificação no evento
+    if request.method == 'GET':
+        form.status.data = str(calendario[0]['concluido'])
+        form.data_entrega.data = datetime.strptime(calendario[0]['data_vencimento'], '%d/%m/%Y').date()
+    if form.validate_on_submit():
+        titulo = form.titulo.data
+        descricao = form.descricao.data
+        data_vencimento = form.data_entrega.data.strftime('%d/%m/%Y')
+        status = form.status.data
+        Calendario().editar_evento(titulo,descricao,data_vencimento,status,id_evento)
+        return redirect(url_for("cliente.perfil_cliente", id_cliente=calendario[0]['id_cliente']))
     return render_template("cliente/perfil_evento.html", form=form ,dados=calendario)
+
+@cliente.route("/deleta_evento/<int:id_evento>", methods=["POST"])
+@login_requisito
+def deleta_evento(id_evento):
+    id_cliente = Calendario().query_por_id_evento(id_evento)[0]['id_cliente']
+    deletar_evento(id_evento)
+    return redirect(url_for("cliente.perfil_cliente", id_cliente=id_cliente))
+
+
+@cliente.route("/cliente/<int:id_cliente>/criar_evento", methods=["GET", "POST"])
+@login_requisito
+def criar_evento(id_cliente):
+    form = Criar_evento()
+    if form.validate_on_submit():
+        Calendario().adicionar_obrigações(
+            form.titulo.data,
+            form.descricao.data,
+            form.data_entrega.data.strftime('%d/%m/%Y'),
+            0,
+            id_cliente
+        )
+        flash("Evento criado com sucesso!", "success")
+        return redirect(url_for("cliente.perfil_cliente", id_cliente=id_cliente))
+    return render_template("cliente/criar_evento.html",form=form,id_cliente=id_cliente)
+
+
+@cliente.route("/calendario_consolidado", methods=["GET", "POST"])
+@login_requisito
+def calendario_consolidado():
+    return render_template("calendario.html",form=form,id_cliente=id_cliente)
