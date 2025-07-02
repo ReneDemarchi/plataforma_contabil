@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block title %}Cliente {{dados_cliente['nome']}}{% endblock %}
-
 {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
@@ -100,63 +99,10 @@
 <div class="card shadow-sm mt-4">
   <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
     <h3 id="titulo-calendario" class="mb-0">Julho 2025</h3>
-    <a href="" class="btnverde">Novo Evento</a>
+    <a href="{{ url_for('cliente.criar_evento', id_cliente=dados_cliente.id) }}" class="btnverde">Novo Evento</a>
   </div>
 
   <div class="card-body p-0">
-    <style>
-      .calendar {
-        width: 100%;
-        border-collapse: collapse;
-        font-family: sans-serif;
-      }
-
-      .calendar th,
-      .calendar td {
-        border: 1px solid #ccc;
-        width: 14.28%;
-        height: 110px;
-        vertical-align: top;
-        padding: 5px;
-        font-size: 0.9rem;
-        position: relative;
-      }
-
-      .calendar th {
-        background-color: #000;
-        color: #fff;
-        text-align: center;
-      }
-
-      .evento-indicador {
-        display: block;
-        margin-top: 4px;
-        font-size: 0.7rem;
-        color: #fff;
-        padding: 2px 4px;
-        border-radius: 4px;
-        word-wrap: break-word;
-        text-decoration: none;
-      }
-
-      .evento-passado {
-        background-color: #dc3545;
-      }
-
-      .evento-hoje {
-        background-color: #ffc107;
-        color: #000;
-      }
-
-      .evento-futuro {
-        background-color: #28a745;
-      }
-
-      .evento-concluido {
-        background-color: #198754;
-      }
-    </style>
-
     <table class="calendar">
       <thead>
         <tr>

@@ -19,17 +19,19 @@ class Calendario:
         return []
     def query_todos_os_eventos(self):
         conn = get_db_connection()
-        cursor = conn.execute("SELECT * FROM obrigacoes_clientes;")  # Remover o filtro WHERE id_cliente = ?
+        cursor = conn.execute("SELECT * FROM obrigacoes_clientes;")
         colunas = [col[0] for col in cursor.description]
+        print(colunas)
         rows = cursor.fetchall()
         lista_dicionarios = []
         for row in rows:
             lista_dicionarios.append(dict(zip(colunas, row)))
         conn.close()
         if lista_dicionarios:
+            print(lista_dicionarios)
             self.lista = lista_dicionarios
             return lista_dicionarios
-        return None
+        return []
 
     def query_por_id_evento(self,id_evento):
         conn = get_db_connection()
@@ -43,7 +45,7 @@ class Calendario:
         if lista_dicionarios:
             self.lista = lista_dicionarios
             return lista_dicionarios
-        return None
+        return []
 
     def adicionar_obrigações(self,titulo,descrição,data_vencimento,concluido,id_cliente):
         conn = get_db_connection()
@@ -72,5 +74,5 @@ class Calendario:
 
 
 if __name__ == '__main__':
-    query = Calendario(1).adicionar_obrigações('CND','rene','02/07/2025',1,1)
+    query = Calendario(1).editar_evento('CND','rene','02/07/2025',1,10)
     print(query)

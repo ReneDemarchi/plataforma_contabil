@@ -30,7 +30,7 @@
             <div class="navbar-nav">
                 {% if session.get('usuario_logado') %}
                     <a class="nav-link" href="{{ url_for('auth.home') }}">Home</a>
-                    <a class="nav-link" href="#">Calendario</a>
+                    <a class="nav-link" href="{{ url_for('cliente.calendario_consolidado') }}">Calendario</a>
                     <a class="nav-link" href="{{ url_for('cliente.lista_cliente') }}">Cliente</a>
                     <a class="nav-link" href="{{ url_for('cliente.precadastro') }}">Cadastro</a>
                     <a class="nav-link" href="{{ url_for('perfil.meu_perfil') }}">Perfil</a>

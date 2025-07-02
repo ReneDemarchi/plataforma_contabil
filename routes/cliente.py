@@ -52,6 +52,7 @@ def perfil_cliente(id_cliente):
     eventos = Calendario(id_cliente).query_cliente_informado()
     form = visualizacao_dados_cliente()
     p_cliente = Cliente.buscar_por_id(id_cliente)
+    print(p_cliente)
     cnaes = p_cliente.Cnaes_do_cliente()
     endereço = p_cliente.Endrereco()
     contato = p_cliente.Contato()
@@ -97,7 +98,7 @@ def lista_cliente():
 @cliente.route("/evento/<int:id_evento>", methods=["GET","POST"])
 @login_requisito
 def editar_evento(id_evento):
-    calendario = Calendario(1).query_por_id_evento(id_evento)
+    calendario = Calendario().query_por_id_evento(id_evento)
     form = Editar_evento()
     if request.method == 'GET':
         form.status.data = str(calendario[0]['concluido'])
@@ -139,4 +140,7 @@ def criar_evento(id_cliente):
 @cliente.route("/calendario_consolidado", methods=["GET", "POST"])
 @login_requisito
 def calendario_consolidado():
-    return render_template("calendario.html",form=form,id_cliente=id_cliente)
+    eventos = Calendario().query_todos_os_eventos()
+    return render_template("cliente/calendario.html",eventos=eventos)
+
+

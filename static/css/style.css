@@ -23,3 +23,54 @@
   align-items: center; /* centraliza na altura */
   gap: 10px; /* espaço entre os botões */
 }
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+
+.calendar th,
+.calendar td {
+  border: 1px solid #ccc;
+  width: 14.28%;
+  height: 110px;
+  vertical-align: top;
+  padding: 5px;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.calendar th {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+}
+
+.evento-indicador {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  word-wrap: break-word;
+  text-decoration: none;
+}
+
+.evento-passado {
+  background-color: #dc3545;
+}
+
+.evento-hoje {
+  background-color: #ffc107;
+color: #000;
+}
+
+.evento-futuro {
+  background-color: #28a745;
+}
+
+.evento-concluido {
+  background-color: #198754;
+}
