@@ -17,9 +17,13 @@
               {{ form.titulo.label(class="form-label") }}
               {{ form.titulo(class="form-control", value=dados[0]['titulo']) }} <!-- arrumar o valor  -->
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4">
               {{ form.descricao.label(class="form-label") }}
               {{ form.descricao(class="form-control", value=dados[0]['descricao']) }}
+            </div>
+              <div class="col-md-4">
+              {{ form.nome_cliente.label(class="form-label") }}
+              {{ form.nome_cliente(class="form-control", value=dados_cliente['nome'],readonly=True)}}
             </div>
                 <div class="col-md-4">
                   {{ form.status.label(class="form-label") }}
@@ -32,7 +36,7 @@
                 <div class="col-3 d-flex justify-content-end mt-5">
                     <div class="botoes d-flex">
                         {{ form.submit(class="btnverde") }}
-                        </form>
+        </form>
                         <form method="POST" action="{{ url_for('cliente.deleta_evento', id_evento=dados[0]['id']) }}">
                             {{ form.csrf_token }}
                             <button type="submit" class="btnvermelho">Deletar evento</button>

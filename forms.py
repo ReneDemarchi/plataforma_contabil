@@ -68,4 +68,5 @@ class Editar_evento(FlaskForm):
     data_entrega = DateField('Data de Entrega', format='%Y-%m-%d')
     id_cliente = StringField('Nome', validators=[Optional(), Length(max=9)])
     status = SelectField('Status da Entrega',choices=[('0', 'Não enviado'), ('1', 'Entregue')])
+    nome_cliente = StringField('Nome do Cliente',validators=[Length(min=3, max=150)])
     submit = SubmitField('Editar')
